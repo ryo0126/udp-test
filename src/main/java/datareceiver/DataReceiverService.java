@@ -130,7 +130,9 @@ public final class DataReceiverService {
     }
 
     private void onError(Exception error, String message) {
-        closeChannel();
+        if (isStarted()) {
+            closeChannel();
+        }
 
         if (dataReceiverListener != null) {
             DataReceiverException dataReceiverException = new DataReceiverException(error, message);

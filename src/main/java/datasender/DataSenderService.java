@@ -74,7 +74,9 @@ public final class DataSenderService {
         }
 
         BiConsumer<Exception, String> onError = (error, errorMessage) -> {
-            closeChannel();
+            if (isStarted()) {
+                closeChannel();
+            }
 
             if (completionListener != null) {
                 DataSenderException dataSenderException = new DataSenderException(error, errorMessage);
