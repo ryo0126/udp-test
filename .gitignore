@@ -1,0 +1,13 @@
+# ビルドファイル
+/build
+*.class
+*.jar
+
+# Gradle
+.gradle
+gradle.xml
+!gradle-wrapper.jar
+
+# OSの自動生成ファイル
+.DS_Store
+Thumbs.db
