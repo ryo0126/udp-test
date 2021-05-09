@@ -64,9 +64,7 @@ public final class DataSenderService {
     }
 
     public boolean isStarted() {
-        synchronized (channelLock) {
-            return channel != null;
-        }
+        return channel != null;
     }
 
     public void sendMessage(String message, Consumer<Exception> completionListener) {
@@ -119,17 +117,10 @@ public final class DataSenderService {
 
     private void closeChannel() {
         try {
-            channel.disconnect();
             channel.close();
-            System.out.println("送信チャンネルを切断しクローズしました。");
+            System.out.println("送信チャンネルをクローズしました。");
         } catch (IOException e) {
-            System.out.println("送信チャンネルの切断またはクローズに失敗しました: " + e.getMessage());
-            try {
-                channel.close();
-                System.out.println("送信チャンネルをクローズしました。");
-            } catch (IOException e2) {
-                System.out.println("送信チャンネルを正常にクローズできませんでした: " + e.getMessage());
-            }
+            System.out.println("送信チャンネルのクローズに失敗しました: " + e.getMessage());
         } finally {
             channel = null;
         }

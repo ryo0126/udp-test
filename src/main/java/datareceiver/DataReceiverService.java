@@ -91,9 +91,7 @@ public final class DataReceiverService {
     }
 
     public boolean isStarted() {
-        synchronized (channelLock) {
-            return channel != null;
-        }
+        return channel != null;
     }
 
     public void startService(Consumer<Result> dataReceiverListener) {
@@ -142,17 +140,10 @@ public final class DataReceiverService {
 
     private void closeChannel() {
         try {
-            channel.disconnect();
             channel.close();
-            System.out.println("受信チャンネルを切断しクローズしました。");
+            System.out.println("受信チャンネルをクローズしました。");
         } catch (IOException e) {
-            System.out.println("受信チャンネルの切断またはクローズに失敗しました: " + e.getMessage());
-            try {
-                channel.close();
-                System.out.println("受信チャンネルをクローズしました。");
-            } catch (IOException e2) {
-                System.out.println("受信チャンネルを正常にクローズできませんでした: " + e.getMessage());
-            }
+            System.out.println("受信チャンネルのクローズに失敗しました: " + e.getMessage());
         } finally {
             channel = null;
         }
